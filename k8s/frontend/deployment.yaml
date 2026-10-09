@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: cloudcart-frontend
+  namespace: cloudcart
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: cloudcart-frontend
+
+  template:
+    metadata:
+      labels:
+        app: cloudcart-frontend
+
+    spec:
+      containers:
+        - name: frontend
+          image: karunakaran07/cloudcart-frontend:1.4
+
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "64Mi"
+
+            limits:
+              cpu: "250m"
+              memory: "128Mi"
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 20
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+

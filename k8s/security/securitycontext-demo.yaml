@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: securitycontext-demo
+  namespace: cloudcart
+
+spec:
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+
+  containers:
+    - name: app
+      image: busybox:1.36
+
+      command:
+        - sh
+        - -c
+        - |
+          id
+          sleep 3600
+
+      securityContext:
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+            - ALL
+

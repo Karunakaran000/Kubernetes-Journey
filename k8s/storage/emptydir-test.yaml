@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: emptydir-test
+  namespace: cloudcart
+
+spec:
+  containers:
+    - name: writer
+      image: busybox:1.36
+
+      command:
+        - sh
+        - -c
+        - |
+          echo "persistent-for-this-pod" > /data/message.txt
+          sleep 3600
+
+      volumeMounts:
+        - name: temporary-storage
+          mountPath: /data
+
+  volumes:
+    - name: temporary-storage
+      emptyDir: {}
+

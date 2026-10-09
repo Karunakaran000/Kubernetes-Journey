@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: configmap-volume-demo
+  namespace: cloudcart
+
+spec:
+  containers:
+    - name: app
+      image: busybox:1.36
+
+      command:
+        - sh
+        - -c
+        - |
+          echo "Container started"
+          sleep 3600
+
+      volumeMounts:
+        - name: config
+          mountPath: /etc/cloudcart
+
+  volumes:
+    - name: config
+      configMap:
+        name: cloudcart-config-demo
+

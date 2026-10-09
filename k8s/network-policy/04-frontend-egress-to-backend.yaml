@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+
+metadata:
+  name: cloudcart-frontend-egress-to-backend
+  namespace: cloudcart
+
+spec:
+  podSelector:
+    matchLabels:
+      app: cloudcart-frontend
+
+  policyTypes:
+    - Egress
+
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: cloudcart-backend
+
+      ports:
+        - protocol: TCP
+          port: 8080
+

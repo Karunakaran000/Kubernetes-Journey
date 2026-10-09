@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: configmap-env-demo
+  namespace: cloudcart
+
+spec:
+  containers:
+    - name: app
+      image: busybox:1.36
+
+      command:
+        - sh
+        - -c
+        - |
+          echo "APP_ENV=$APP_ENV"
+          echo "LOG_LEVEL=$LOG_LEVEL"
+          echo "APP_NAME=$APP_NAME"
+          sleep 3600
+
+      env:
+        - name: APP_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: cloudcart-config-demo
+              key: APP_ENV
+
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: cloudcart-config-demo
+              key: LOG_LEVEL
+
+        - name: APP_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: cloudcart-config-demo
+              key: APP_NAME
+

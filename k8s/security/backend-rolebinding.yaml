@@ -1,0 +1,17 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+
+metadata:
+  name: cloudcart-backend-pod-reader
+  namespace: cloudcart
+
+subjects:
+  - kind: ServiceAccount
+    name: cloudcart-backend
+    namespace: cloudcart
+
+roleRef:
+  kind: Role
+  name: cloudcart-pod-reader
+  apiGroup: rbac.authorization.k8s.io
+
